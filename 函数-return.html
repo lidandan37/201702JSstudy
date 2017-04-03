@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    // return : 返回 把函数里的值 返回到外面；
+//    function add(a, b) { // 如果没有传参 形参是默认值undefined  // 作用：用来求和
+//        console.log(a,b);
+//          var n = a + b;
+//          // 函数中没有写return 或 写了return没有指定任何返回值 在外面接收到的就是undefined
+////          return; // 把函数里的求和后的 结果当做值 返回到外面
+//        return 'hello';
+////
+//    }
+     // 函数（） 函数执行  （函数名（））这个整体 代表这个 函数执行后的返回值
+    // 函数名（）这个整体 代表什么取决于 我在函数里用return返回的 东西 如果不用return指定返回什么 默认就是undefined
+//    console.log(add()); // 如果函数里面没有用return指定返回值 默认返回undefined
+//    var sum = add(2,5); // sum接收到时函数里return出来的返回值
+//    console.log(sum);
+//    console.log(add); // 代表整个函数本身 如果说函数是个洗衣机 函数名等于说代表这台机器本身
+//    console.log(add());// 函数执行（让洗衣机运行） 同时(add())这个整体 代表着函数执行后的返回值 函数的返回值取决于（return） 默认返回undefined；
+
+    function Fe(a,b) { // a,b形参 用来接收外面传递进来的实参
+        console.log(a,b); // a:1 b:2
+        console.log(arguments); // 实参集合[1,2]
+        console.log(arguments[0]); // 1
+        return '你好我是返回值'; // 指定函数里的返回值 把函数里面的东西当作值返回到外面
+        console.log('我是你背后的人');
+        var en;
+    }
+    // return 可以中断函数执行 阻断函数后面代码执行
+    console.log(Fe(1, 2)); // 让Fe这个函数执行 并传递进来两个实参（1，2）
+    console.log(Fe(1, 2));
+    var sum = Fe(1,2);
+    console.log(sum);
+    var sum2 = Fe(1,2);
+    var num = 123;
+    num;
+    console.log(num);
+
+    function fe1() {
+        return function () {
+            console.log('我是fe的返回值 我是函数数据类型的')
+        }
+//        return; // 1.函数里不写return 和 函数里return不指定返回值 默认返回的都是undefined
+//         2. 阻断return后面的代码执行
+    }
+    fe1();// 让fe1这个函数执行 并且fe1() 这个整体 代表着函数里的返回值
+    console.log(fe1()); // fe1()这个整体 就代表着 里面return的匿名函数定义部分
+    fe1()(); // 让fe1()（）执行后的返回的这个值（返回的函数）执行
+    var f1 = fe1();
+    console.log(f1);
+    f1();
+</script>
+</body>
+</html>

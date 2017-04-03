@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #info {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!--<div>{{name}}</div>-->
+<input type="text" id="inp">
+<p id="info">请填写邮箱</p>
+<script type="text/javascript">
+    // 检测字母出现次数
+    //var str = 'my name is zhou xiao tian!';
+    //var reg = /(?!\s)[a-z]/g; // 匹配除了空格以外的 一个英文字母
+    //    var obj = {}; //每一个捕获到字母 作为这个对象的key 次数作为这个key的value
+    //    str.replace(reg, function () { //  {m: 2, y: 1, n: 2, a: 3, e: 1…}
+    ////        console.log(arguments);
+    //        var cur = arguments[0];
+    //        if(obj[cur]){ // 1.obj.m=undefined 2.obj.m +=1 obj.m = 2
+    //            obj[cur] ++; // 累加 捕获到cur字母 出现数
+    //        } else { // 第一次的时候如果对象中没有key为arguments[0]我们就保存一次 值1
+    //            obj[cur] = 1 // 如果没有就增加 一个 obj.m = 1
+    //        }
+    //   });
+    //
+    //    var max = 0;
+    //    for (var key in obj){ // 筛选出 当中 属性值最大是多少（出现最多的次数是多少）
+    //        var cur = obj[key]; // 得到一个属性的次数
+    //        cur > max ? max = cur : null; // 和我们假设的那个最大的进行比较
+    //    }
+    //
+    ////    console.log(max); // 得到的出现最多的次数
+    //    var maxArr = [];
+    //    for (var key in obj) { // 根据最多的次数 去找个对象里筛选 把value是max的 key 添加到maxArr里
+    //        if(obj[key] == max){
+    //            maxArr.push(key);
+    //        }
+    //    }
+    //    console.log(maxArr);
+
+
+    /////////////////////////////////////
+    //    var str = 'http://www.zhufengpeixun.cn/index.html?name=zxt&age=28&sex=1';//->'?name=zxt&age=28&sex=1' =>{name:'zxt',age:28,sex:1}
+    ////    name=zxt
+    ////    ?name=zxt&age=28&sex=1' // 要匹配的 左边不是 ？& =
+    //
+    //    function getParamer(url) {
+    ////        var reg = /(\w+)=(\w+)/g; // name=zxt 不能匹配中文
+    //        var reg = /([^?&=]+)=([^?&=]+)/g;//  （不是？& =）  ?name=zxt&
+    //        var obj = {};
+    //        url.replace(reg, function () {
+    ////            console.log(arguments); //
+    //            obj[arguments[1]] = arguments[2];
+    //        });
+    //        return obj;
+    //    }
+    ////    console.log(getParamer(str)); // {name: "zxt", age: "28", sex: "1"}
+    //    console.log(getParamer('https://www.baidu.com/s?name=常哲楠&rsv_spt=1&rsv_iqid=0xf4e2e9c400038997')); // {name: "zxt", age: "28", sex: "1"}
+
+    //================================
+
+    //    var str3 = 'ni&ni&hao'; // ["ni", "ni", "hao"]
+    //    console.log(str3.split(/&/)); // 把正则匹配的 那一项作为指定分隔符
+
+    //    方式一
+    //    var time = '2017-3-26 18:38:4'; //-> '2017年03月26日 18时38分04秒'  / '03-26 18:38' ...
+    //    var timer = time.split(/[- :]/); // ["2017", "3", "26", "18", "38", "4"]
+    //    var arr = ['年','月','日 ','时','分','秒'];
+    //    var str = '';
+    //    for(var i = 0; i < timer.length; i++){
+    //            str += addZero(timer[i])+''+arr[i];
+    //    }
+    //    console.log(str);
+
+    //    方式二
+    //    var reg = /(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/g;
+    //   var timer = time.replace(reg, '$1年$2月$3日 $4时$5分$6秒');
+
+    //    方式三
+    //    var time = '2017-3-26 18:38:4';
+    //    var reg = /(\d+)/g;
+    //    var count = 0;
+    //    var arr = ['年','月','日 ','时','分','秒'];
+    //    var str = '';
+    //    var timer = time.replace(reg, function (a) {
+    //          str += addZero(a) + ''+ arr[count++];
+    //    });
+    //  console.log(str);
+
+    // 模板引擎
+    //    var tmeplate = '{0}年{1}月{2}日 {3}时{4}分{5}秒'; //{0}就是个占位符
+    //    var time = '2017-3-26 18:38:4';
+    //    var timers = time.split(/[- :]/); // ["2017", "3", "26", "18", "38", "4"]
+    //    console.log(timers);
+    ////    {0}
+    //    var regs = /\{(\d+)\}/g;
+    //    var strer = tmeplate.replace(regs, function (a,b) { // b第一个分组内容
+    ////        return timers[b];
+    //        return timers[arguments[1]];
+    //    });
+    //    console.log(strer);
+
+    function addZero(val) {
+//        return ('0'+val).slice(-2);
+        return val < 10 ? ('0' + val) : val;
+    }
+
+
+// 方式五
+//        var time = '2017-3-26 18:38:4';
+//        var arr = ['年','月','日 ','时','分','秒'];
+//        var reg = /(\d+)[-:]?/g;
+//        var ind = 0;
+//        var timer = time.replace(reg, function () {
+////            console.log(arguments);
+//            return addZero(arguments[1]) + arr[ind++];
+//        });
+//    console.log(timer);
+    // 方式六
+//    var time = '2017-3-26 18:38:4';
+//            var arr = ['年','月','日 ','时','分','秒'];
+//            var reg = /(\D+)|$/g;
+//            var ind = 0;
+//            var timer = time.replace(reg, function () {
+//                return arr[ind++];
+//            });
+//        console.log(timer);
+
+    //================================
+    var str2 = '   my name is zxt     ';//->实现一个myTrim方法去除字符串首尾空格
+//    var reg = /^\s+|\s+$/g;
+//    var reg = /^ +| +$/g;
+//    var str3 = str2.replace(reg, function () {
+//        return ''
+//    });
+//
+//    var str3 = str2.replace(reg, '');
+//    console.log(str3);
+
+    //================================
+    var str3 = '12345678.12';//->'12,345,678' 千分符：从后向前数，数三位加一个逗号
+
+    var reg2 = /\d(?=(\d{3})+(\.\d+)|$)/g;
+    var str4 = str3.replace(reg2, function () {
+        console.log(arguments);
+        return arguments[0]+',';
+    });
+    console.log(str4);
+
+//    var reg2 = /\d{3}(?!(?:\.\d+)|$)/g;
+//    var str4 = str3.split("").reverse().join("");
+//    console.log(str4);
+//    str4 = str4.replace(reg2, function () {
+//        console.log(arguments);
+//        return arguments[0]+',';
+//    });
+//    console.log(str4.split("").reverse().join(""));
+
+    // 非空验证
+//    var oInp = document.getElementById('inp');
+//    var info = document.getElementById('info');
+//    oInp.onblur = validVal;
+//    oInp.oninput = validVal;
+//    function validVal() {
+//        var regs = /^\s*$/g;
+//        if(regs.test(this.value)){
+//            info.style.display = 'block';
+//        } else {
+//            info.style.display = 'none';
+//        }
+//    }
+</script>
+</body>
+</html>

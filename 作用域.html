@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 全局作用域和私有作用域
+    // 全局作用域：供全局中的js代码执行的环境
+    // 私有作用域：供函数里面js代码执行的环境
+    // 作用域（栈内存）：供js代码执行的环境
+     // 私有作用域：是函数执行的时候形成的作用域
+//    function fn() {
+//        console.log('nihao');
+//    }
+//    fn();
+    // 函数执行的目的：让函数体里的代码执行 js代码执行需要一个运行环境也就是私有作用域
+    // 函数执行过程
+    // 1.如果有形参就形参赋值
+    // 2.预解释（函数里带var和function的变量）
+    // 3.函数里代码从上到下执行
+//    var n = '我是全局'; // 声明了一个全局变量 同时也给window增加了一个全局属性 这个是全局中的变量 因为它是在全局作用域中预解释的（声明的）
+//
+//    // 在函数里 都什么是私有变量 私有作用域中 的形参 和 预解释过的变量
+//    function fn(m) { // 形参是当前函数的私有变量
+//        console.log(m);
+//       var n = 'nihao';  // 私有变量 这个n是在函数执行形成的私有作用域中预解释的（声明的）
+//       console.log(n);
+//    }
+//    fn('12');
+//    console.log(n === window.n);
+    console.log(n); // undefined 因为在js代码执行之前要进行预解释 声明了n 并且赋值为默认值undefined 所以在这输出undefined
+    var n;
+    function fn() { // 因为fn是在全局中定义的所以fn的上级作用域是window
+       n = 100; // 不是私有变量它没有在这里预解释过 也不是这里的形参
+    }
+    fn();
+    console.log(n); // 100
+    // 作用域链：在私有作用域中 遇到一个变量 先看是不是私有的（是不是形参和有没有预解释过）,如果没有 就去上级作用域查找 一直找到window为止 如果window也没有就报错 is not defined
+  // 上级作用域：只看当前函数是在哪定义的
+//    var num = 200;
+//    function fe1() { // window 因为是在全局中定义的
+//        num = 123; // fe1执行把全局中的num的值由200 改为了 123
+//        function fe2() { // fe1 因为是在fe1里面定义的（预解释的）
+//            console.log(num); // 123
+//        }
+//        fe2(); // fe2 执行 输出的num是全局中的num 但输出的值 是被fe1修改后的值 123
+//    }
+//    fe1();
+    var f = 123;
+    function fe1() {
+        var f = 200;
+    }
+    f = 1000;
+    console.log(f); // 123
+    // 闭包：函数执行时形成一个私有作用域，保护里面私有变量不受外界干扰 这种保护机制叫做‘闭包’
+    function fe2() {
+        var e = 10;
+        return function () {  // 上级fe2
+            e = 200; // 这里面的e是fe2私有的 把fe2里的私有e 的值修改为200
+        }
+    }
+    var ff = fe2();
+    ff();
+
+    console.log(13);
+    // 代码执行到这一行 预解释和执行一起完成
+    var nu3 = 123;
+   ;(function () {
+        console.log(666);
+        console.log(nu3);
+    })();
+
+
+   // val1 接收 自执行函数执行后的返回值
+//   var val1 = (function () {
+//         return 'val1';
+//   })();
+//    function fe5() {
+//        return 'val2';
+//    }
+//    // val2 接收 fe5函数执行后的返回值
+//    var val2 = fe5();
+//    console.log(val1);
+//    console.log(val2);
+//    var val1 = (function () {
+//        function f() {
+//            console.log(123);
+//        }
+//        return f;
+//    })();
+//
+//    function fe5() {
+//        return function () {
+//            console.log(555);
+//        }
+//    }
+//    // val2 接收 fe5函数执行后的返回值
+//    var val2 = fe5();
+//    console.log(val1);
+//    console.log(val2);
+
+    //
+    var val1 = (function () {
+        function f() {
+            console.log(123);
+        }
+        return {
+            name:'zhufeng'
+        };
+    })();
+    console.log(val1.name);
+    function fe5() {
+        function f() {
+            console.log('ff');
+        }
+        return{
+            fn:f
+        }
+    }
+    // val2 接收 fe5函数执行后的返回值
+    var val2 = fe5();
+    val2.fn();
+//    console.log(val1);
+    console.log(val2);
+
+</script>
+</body>
+</html>

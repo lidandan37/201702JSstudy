@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #tables {
+            margin: 20px auto;
+        }
+
+        #tables tr td,
+        #tables tr th {
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        #tables tr th {
+            background-color: #2cc0ee;
+            font-size: 18px;
+            cursor: pointer;
+            -webkit-user-select: none;
+        }
+
+        .c0 {
+            background-color: #00ee00;
+        }
+
+        .c1 {
+            background-color: #FFE0E9;
+        }
+    </style>
+</head>
+
+<body>
+<table border="1" cellspacing="0" id="tables">
+    <thead>
+    <tr>
+        <th>name</th>
+        <th>age</th>
+        <th>sex</th>
+        <th>score</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<!-- 引入外部依赖 utils: {likeArray toJson} -->
+<script src="utils.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    // 1.请求数据（ajax请求）
+    var tables = document.getElementById('tables');
+    var tBody = tables.tBodies[0];
+    var tBodyRows = tBody.rows;
+    var tHead = tables.tHead; // 获取thead
+    var tHeadRows = tHead.rows[0];
+    var ths = tHeadRows.cells;
+    // 创建ajax对象
+    var xhr = new XMLHttpRequest();
+    // 打开一个接口建立连接
+    xhr.open('get', 'data.txt', false);
+    // 监听获取状态
+    xhr.onreadystatechange = function () {
+        // http 状态 200/201/202 都代表请求成功 2开头的三位数
+        console.log(123);
+        if (this.readyState === 4 && /^2\d{2}$/.test(this.status)) {
+            var data = this.responseText;
+            data = utils.toJson(data);
+            data && data.length ? bindData(data) : null;
+        }
+    };
+    xhr.send();
+    // 绑定数据
+    function bindData(data) {
+        var frg = document.createDocumentFragment();
+        for (var i = 0; i < data.length; i++) { // 数组中有多少项 就循环多少次 创建多少个tr
+            var curData = data[i]; // 当前每条对象
+
+            curData.sex = curData.sex ? '男' : '女'; // 处理性别
+
+            var tr = document.createElement('tr');
+            for (var key in curData) { // 对象中有多少组 键值对 就 遍历多少次 创建多少个td
+                var td = document.createElement('td');
+                td.innerHTML = curData[key]; // td中的内容
+                tr.appendChild(td);
+            }
+            frg.appendChild(tr);
+        }
+        tBody.appendChild(frg);
+//        背景颜色
+        changeBg();
+        frg = null;
+    }
+    var rowArr = utils.likeArray(tBodyRows);
+    for (var i = 0; i < ths.length; i++) {
+        ths[i].ind = i;
+        ths[i].flag = -1; // 用来控制这一个整列的升降序标识
+        ths[i].onclick = function () {
+            var that = this;
+            // 原本flag为1的时候是升序 乘以-1后就倒序 ，如果flag为-1 降序 再乘以 -1  就变成了1 升序 每一次点击的时候 让当前的flag*=-1 相当于取反
+            for (var j = 0; j < ths.length; j++) {
+                if (ths[j] != this) {
+                    ths[j].flag = -1; // 如果不是我点击的这一个 将其他flag设为初始的-1
+                    console.log(123);
+                }
+            }
+            this.flag *= -1; // 1 -1 1 -1 每点击一次*=-1 相等于每次取反
+            rowArr.sort(function (a, b) {
+                // 每一行的当前和点击的th对应的列 的内容
+                var val1 = a.cells[that.ind].innerHTML;
+                var val2 = b.cells[that.ind].innerHTML;
+                if (isNaN(val1) || isNaN(val2)) { // 只要有一个不是有效数字 就按照中文排序
+                    return val1.localeCompare(val2) * that.flag;
+                }
+                // 按数字排序
+                return (val1 - val2) * that.flag; // a-b 从小到大 （a-b）*-1=> b-a 就是从大到小 也就是说咱们可以动态控制它乘以-1来 控制升序（a-b）和降序（b-a）
+            });
+            // 让页面中的tr 按照js中排好序的位置 来移动节点位置
+            var frgs = document.createDocumentFragment();
+            for (var i = 0; i < rowArr.length; i++) {
+                frgs.appendChild(rowArr[i]);
+            }
+            tBody.appendChild(frgs);
+            // 每次排完序后需要重新计算下奇偶行 变色
+            changeBg();
+        };
+
+    }
+    // 背景颜色
+    function changeBg() {
+        for (var i = 0; i < tBodyRows.length; i++) {
+            tBodyRows[i].className = 'c' + i % 2;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 函数：具备功能的方法
+
+    // 定义 + 执行
+    // 1.定义：通过function关键字 来定义
+
+//    function 函数名() {
+//
+//    }
+
+    // 2.执行： 函数名（）
+
+//    function fn(num1,num2) { // 定义
+//        // 形参 函数里面需要接收外面传递进来的是参数
+//        // num2接收到 外面num1传递进来的值  在函数里 我就可以使用num2
+//        console.log(num);
+//    }
+//
+//    fn(); // 执行调用 一个函数名叫fn的函数
+////  函数名()  （）是用来传递 参数
+//    var num1 = 123;
+//    var num2 = 666;
+//    fn(num1,num2) // num 成为实参 把函数里需要的东西 在函数执行的时候 通过（）传递到函数里
+
+    function fn() { // arguments  函数里自带的 只能在当前函数里使用 实参集合  类数组 把传递进来的参数到放到这个集合里
+        console.log(arguments);  // 函数执行传多少个参数 集合里就有多少项
+        for(var i = 0; i < arguments.length; i++){ // 也可以像数组一样 循环遍历出来每一项 通过索引
+            console.log(arguments[i]);
+        }
+    }
+    fn(1,2,4,5,6,7,8,9); // 当传递任意个 实参的时候 就不能用形参接收 因为不确定有多少个实参 在不确定会传多少个参数  我们可以在函数里使用arguments
+// 函数接收参数 形参 和 arguments
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      // console.log(num); // 在js中如果这行代码报错 不进行处理的情况下 后面代码都不会执行
+      // console.log(123);
+      //try catch finally 用来捕获异常
+      try { // 把有可能报错的代码 放到try里 可以避免报错时 阻断后面代码执行
+        console.log(num);
+      } catch (e) {
+        console.log(e.message); // 捕捉上面代码异常信息
+        console.log(123);
+      } finally {
+        console.log(456);
+      }
+      console.log(789);
+    </script>
+  </body>
+</html>

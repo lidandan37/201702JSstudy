@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+         // 内置类 Number Object Array...
+         // 类中的this是当前实例
+        //  我们也可以自定义一个类
+        // 如何自定义一个类 : 定义一个函数 没有特殊的语法 通常函数名第一个字母要大写
+
+        function Fn() {
+          var name = 'huanying'; // 函数执行的时候形成的一个私有变量
+          // 通过new Fn 执行的时候 浏览器默认创建一个对象 -> 实例
+          // 类中this是当前类的实例 所以 函数当做一个类执行的时候 函数中this.xx=xx是给这个实例（默认创建的对象）添加私有属性
+              this.name = 'nihao'; // this代表当前实例 给当前实例添加一个私有属性
+              // 最后 自动将创建的这个对象（实例）返回到外面
+              this.say = function (){
+
+              };
+        }
+        Fn.prototype.ni = function () { // 给Fn的原型上添加属性（给Fn这个类的实例添加了一个公有属性）
+          console.log('nihao');
+        }
+      var fe1 = Fn(); // Fn作为一个普通函数执行
+      var fe2 = new Fn; // 构造函数模式 通过关键字new 来执行 我们可以说 Fn是作为一个类
+      var fe3 = new Fn;
+      console.log(fe2 === fe3);
+      console.log(fe2.say === fe3.say);
+      console.log(fe2.ni === fe3.ni); // 因为ni是实例的公用属性
+      //  每一个实例都是一个单独的个体 类中this.xxx 是给这个实例添加的私有属性
+
+      console.log(fe1); // undefined 因为Fn当做普通函数执行 没有return 默认返回undefined
+      console.log(fe2); // {name: "nihao"} 返回的是一个对象数据类型的值
+      console.log(fe1); // fe1接收的是Fn当做普通函数执行的返回值
+      console.log(fe2); // new Fn 时候创建了Fn这个类的一个实例 这个实例就是fe2
+         // 构造函数执行和普通函数执行
+
+
+        //  实例是对象数据类型的值
+        // 所有对象数据类型都是Object这个基类的实例；
+        //  每一个函数数据类型（普通函数 类（内置 自定义）），都有一个天生自带的属性prototype(原型),它的值是个对象数据类型的值；
+        //  每一个对象（普通对象 实例）都有一个天生自带的属性__proto__,这个属性指向所属类的prototype（原型）;
+        // prototype 有一个天生自带的属性constructor，这个属性指向函数本身（类），prototype是用来存储实例的公有属性
+
+
+    </script>
+  </body>
+</html>

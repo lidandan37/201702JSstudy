@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            border: 2px solid black;
+            position: relative;
+            margin-left: 100px;
+           height: 400px;
+        }
+        #outer {
+            position: absolute;
+            width: 300px;
+            height: 900px;
+            border: 3px solid blue;
+            margin: 20px 100px;
+        }
+
+        #outer #inner {
+            display: block;
+            width: 200px;
+            height: 200px;
+            border: 1px solid green;
+            margin: 50px;
+            filter: alpha(opacity=100);
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="outer">
+        <div id="inner"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    // 盒子模型 client offset scroll
+    var inner = document.getElementById('inner');
+    var outer = document.getElementById('outer');
+    var par = inner.offsetParent;
+//    console.log(outer.offsetLeft);
+    console.log(inner.offsetLeft);
+//    console.log(inner.offsetParent === inner.parentNode);
+      console.log(par.offsetLeft);
+
+    function offset(ele) {
+        var l = ele.offsetLeft;
+        var t = ele.offsetTop;
+        var par = ele.offsetParent;
+        while (par && par.nodeName != 'BODY') {
+            l += par.clientLeft + par.offsetLeft;
+            t += par.clientTop + par.offsetTop;
+            par = par.offsetParent;
+        }
+        return {
+            left: l,
+            top: t
+        }
+    }
+    console.log(offset(inner));
+    var str = 'http://www.zhufengpeixun.cn/index.html?name=zxt&age=28&sex=1';
+
+    function getUrlParam1(url) {
+        var reg = /([^?&=]+)=([^?&=]+)/g;
+        var obj = {};
+        url.replace(reg, function (a, b, c) {
+            obj[b] = c;
+        });
+        return obj;
+    }
+    //      console.log(getUrlParam(str));
+    //      function getUrlParam(url) {
+    //          var reg = /(\w+)=(\w+)/g;
+    //          var obj = {};
+    //          url.replace(reg, function (a,b,c) {
+    //              obj[b] = c;
+    //          });
+    //          return obj;
+    //      }
+    //      console.log(getUrlParam(str));
+    function getUrlParam2(url) {
+        var reg = /(\w+)=(\w+|(?:[\u4e00-\u9fa5]+))/g;
+        var obj = {};
+        url.replace(reg, function (a, b, c) {
+            obj[b] = c;
+        });
+        return obj;
+    }
+    var url1 = 'https://www.baidu.com/s?wd=正则获取url参数&rsv_spt=1&rsv_iqid=0xdd3b407200052ea1&issp=1&f=3';
+    console.log(getUrlParam2(url1));
+    console.log(getUrlParam1(url1));
+    // 千分符
+    //      var str3 = '1234526789';
+    //      var str4 = '1234526789.12';
+    //      var reg1 = /\d(?=(\d{3})+(\.\d+|$))/g;
+    //    var newStr = str3.replace(reg1, function () {
+    //          console.log(arguments);
+    ////        ["1", "789", "", 0, "1234526789"]
+    ////        ["4", "789", "", 3, "1234526789"]
+    ////        ["6", "789", "", 6, "1234526789"]
+    //          return arguments[0] + ','
+    //      });
+    //    console.log(newStr);
+    // 正向预查
+    //    var str3 = 'lwl123hello666';
+    //    var reg = /[a-z]+(?=\d{3})/g;
+    //      console.log(reg.exec(str3));
+    //      console.log(reg.exec(str3));
+    //      console.log(str3.match(reg));
+
+    // 千分符
+    //      var num1 = '102495553.12';
+    //      var reg = /\d(?=(\d{3})+(\.\d+|$))/g; // 某个数字后面跟着的是一个或多个连续的三位数作为结尾
+    //      // 102的2后面跟着的是495553 两组连续的三位数作为结尾
+    //      // 102495 的 5 后面 跟着的是 553 一组三位数作为结尾
+    //      console.log(num1.match(reg));
+    //      var num2 = num1.replace(reg, function () {
+    //             return arguments[0] + ','
+    //      });
+    //      console.log(num2);
+
+    var num1 = '553';
+    //      var reg = /(\d{3})(?!$)/g; // 匹配不是结尾的三位数
+    //      '35559821'
+    //      '3555'
+    num1 = num1.split('').reverse().join("");
+    var reg = /(\d{3})(?!$)/g;
+//    console.log(reg.exec(num1));
+//    console.log(reg.exec(num1));
+//    console.log(reg.exec(num1));
+    var num2 = num1.replace(reg, function () {
+        console.log(arguments);
+        return arguments[0] + ',';
+    });
+    console.log(num2.split("").reverse().join(""));
+
+    console.log(getCss(inner,'width'));
+    function getCss(ele, attr) {
+        var val;
+        if(window.getComputedStyle){
+          val = window.getComputedStyle(ele,null)[attr];
+        } else {
+            if(attr == 'opacity'){
+               val = ele.currentStyle.filter;
+               console.log(val);
+               var reg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
+                val = reg.test(val)? reg.exec(val)[1]/100 : 1;
+            } else {
+                val = ele.currentStyle[attr];
+            }
+        }
+//        -100px 0.2 block
+        var regs = /-?\d+(\.\d+)?(px|pt|em|rem)$/;
+        return regs.test(val)? parseFloat(val): val;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button type="button" name="button" id='btn'>点击</button>
+    <script type="text/javascript">
+
+      // this: 行为主体
+      // 研究的函数中的this
+      // 1.全局中的this是window
+      // 2.函数中的this 看函数执行的时候前面有没有'.'，点前面是谁方法中的this就是谁，如果没有点 this就是 window (跟函数在哪执行没有关系 只看函数执行的时候有没有点)
+      // 3.给元素绑定事件时 事件中的this就是当前绑定的元素（事件绑定给哪个元素 事件中的this就是谁）
+      // 4.自执行函数中的this 永远是window
+      // 5.类中的this是当前实例
+
+      //  console.log(this);
+      // var obj = {name: 'wudi123'};
+      // var name = 'wudi666'
+      // function fn() {
+      //   console.log(this);
+      //   console.log(this.name); // wudi666 wudi123
+      // }
+      // // fn();
+      // // obj.fn = fn;
+      // // obj.fn();
+      // function fe() {
+      //   fn();
+      // }
+      // fe();
+
+      // 元素事件中的this
+      // var btn = document.getElementById('btn');
+      // btn.onclick = function () {
+      //   console.log(this);
+      // }
+
+      // 自执行函数中的this
+
+      ;(function () {
+         console.log(this); // window
+      })();
+
+      var obj = {
+        fn: (function () {
+          console.log(this); // window
+          return function () {
+             console.log(this); // obj
+          }
+        })()
+      }
+       obj.fn();
+       var fe = obj.fn;
+       fe();
+
+       function foo() {
+         ;(function () {
+            console.log(this);
+         })()
+       }
+       foo();
+
+       var utils = function(){
+           return {
+             name: 'liwenli'
+           }
+       }();
+       console.log(utils.name);
+    </script>
+  </body>
+</html>
